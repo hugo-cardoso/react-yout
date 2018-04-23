@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 import { search } from './services/youtube-api';
+import VideoList from './components/VideoList'
 import './App.css';
 
 class App extends Component {
@@ -13,7 +15,11 @@ class App extends Component {
 
   searchByName( name ) {
 
-    search(name).then(res => window.console.log(res.data));
+    search(name).then(res => {
+      
+      // window.console.log(res.data);
+      PubSub.publish("Teste", res.data);
+    });
   }
 
   render() {
@@ -37,6 +43,9 @@ class App extends Component {
           </div>
         </section>
         <hr/>
+        <div class="container">
+          <VideoList />
+        </div>
       </div>
     );
   }
