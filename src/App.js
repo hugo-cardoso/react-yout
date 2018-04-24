@@ -17,9 +17,14 @@ class App extends Component {
 
     search(name).then(res => {
       
-      // window.console.log(res.data);
-      PubSub.publish("Teste", res.data);
+      PubSub.publish("SearchResult", res.data);
     });
+  }
+
+  search(e) {
+
+    e.preventDefault();
+    this.searchByName( this.state.searchText );
   }
 
   render() {
@@ -30,20 +35,22 @@ class App extends Component {
             <h1 className="title">
               Search
             </h1>
-            <div className="field has-addons">
-              <div className="control is-expanded">
-                <input className="input" type="text" value={ this.state.searchText } placeholder="Find a repository" onChange={ (e) => this.setState({searchText: e.target.value}) } />
+            <form onSubmit={ e => this.search(e)}>
+              <div className="field has-addons">
+                  <div className="control is-expanded">
+                    <input className="input" type="text" value={ this.state.searchText } placeholder="Find a video" onChange={ (e) => this.setState({searchText: e.target.value}) } />
+                  </div>
+                  <div className="control">
+                    <button className="button is-info" type="submit">
+                      Search
+                    </button>
+                  </div>
               </div>
-              <div className="control">
-                <a className="button is-info" onClick={ () => this.searchByName(this.state.searchText)}>
-                  Search
-                </a>
-              </div>
-            </div>
+            </form>
           </div>
         </section>
         <hr/>
-        <div class="container">
+        <div className="container">
           <VideoList />
         </div>
       </div>
